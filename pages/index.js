@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Typography } from "@mui/material";
+import { Typography, Box, Button } from "@mui/material";
+import { useRouter } from "next/router";
 
 const Home = () => {
   //data and fetching state
+  const router = useRouter()
   const [data, setData] = useState([]);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -49,19 +51,47 @@ const Home = () => {
 
 
 
+function onCreatePlanButtonCLickHandler () {
+  router.push('/new')
+
+}
+
+
+
   return (
     <>
-    <Typography sx={{marginY:4, width:"90%", marginLeft: 10}} variant="h4">List of Diet Plans</Typography>
-    <div style={{ height: 400, width: "90%", margin:'auto' }}>
-      <DataGrid
-        rows={data}
-        columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-      />
-    </div>
+      <Box sx={{ display: "flex", flexDirection: "row", width:'70%', margin:4, alignItems:'center' }}>
+        <Typography
+          sx={{ marginY: 4, width: "90%", marginLeft: 10 }}
+          variant="h4"
+        >
+          List of Diet Plans
+        </Typography>
+
+        <Box>
+
+        <Button onClick={onCreatePlanButtonCLickHandler} size="medium" variant="contained">
+          Create new Diet Plan
+        </Button>
+        </Box>
+      </Box>
+
+      <div style={{ height: 400, width: "90%", margin: "auto" }}>
+        <DataGrid
+          rows={data}
+          getRowId={(row) => row.id}
+          columns={columns}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+        />
+      </div>
     </>
   );
 };
 
 export default Home;
+
+
+
+
+
