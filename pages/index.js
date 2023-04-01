@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Typography, Box, Button } from "@mui/material";
 import { useRouter } from "next/router";
+
+import MaterialReactTable from "material-react-table";
+
 
 const Home = () => {
   //data and fetching state
@@ -41,15 +44,34 @@ const Home = () => {
   }, []);
 
 
+  const columns = useMemo(
+    () => [
+      {
+        accessorKey: "fitnessGoal", //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
+        enableClickToCopy: true,
+        header: "FitnessGoal",
+        size: 300,
+      },
+      {
+        accessorKey: "monthlyBudget", //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
+        enableClickToCopy: true,
+        header: "Monthly Budget",
+        size: 300,
+      },
+      {
+        accessorKey: "dietaryRequirment", //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
+        enableClickToCopy: true,
+        header: "Dietary Requirments",
+        size: 300,
+      },
+    ],
+    []
+  );
 
-  const columns = [
-    { field: "fitnessGoal", headerName: "Fitness Goal", width: 200 },
-    { field: "monthlyBudget", headerName: "Monthly Budget", width: 200 },
-    { field: "dietaryRequirment", headerName: "Dietary Requirment", width: 200 },
-    
-  ];
 
-
+function onRowClickHandler(rowId) {
+  router.push(`/detail/${rowId}`)
+}
 
 function onCreatePlanButtonCLickHandler () {
   router.push('/new')
@@ -57,10 +79,19 @@ function onCreatePlanButtonCLickHandler () {
 }
 
 
+console.log('diet plant id is ', data)
 
   return (
     <>
-      <Box sx={{ display: "flex", flexDirection: "row", width:'70%', margin:4, alignItems:'center' }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          width: "70%",
+          margin: 4,
+          alignItems: "center",
+        }}
+      >
         <Typography
           sx={{ marginY: 4, width: "90%", marginLeft: 10 }}
           variant="h4"
@@ -69,22 +100,38 @@ function onCreatePlanButtonCLickHandler () {
         </Typography>
 
         <Box>
-
-        <Button onClick={onCreatePlanButtonCLickHandler} size="medium" variant="contained">
-          Create new Diet Plan
-        </Button>
+          <Button
+            onClick={onCreatePlanButtonCLickHandler}
+            size="medium"
+            variant="contained"
+          >
+            Create new Diet Plan
+          </Button>
         </Box>
       </Box>
 
-      <div style={{ height: 400, width: "90%", margin: "auto" }}>
-        <DataGrid
-          rows={data}
-          getRowId={(row) => row.id}
+      <Box>
+        <MaterialReactTable
           columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
+          data={data}
+          getRowId={(row) => row.dietPlanId}
+          muiTableBodyRowProps={({ row }) => ({
+            onClick: () => {
+              onRowClickHandler(row.id)
+            },
+            sx: {
+              cursor: "pointer",
+            },
+          })}
+          initialState={{ showColumnFilters: true, showGlobalFilter: true }}
+          enableGlobalFilter={true}
+          enableColumnFilters={true}
+          enablePagination={true}
+          enableSorting={true}
+          enableBottomToolbar={true}
+          enableTopToolbar={true}
         />
-      </div>
+      </Box>
     </>
   );
 };
