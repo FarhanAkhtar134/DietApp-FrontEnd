@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, Divider } from "@mui/material";
 import InlineField from "./InlineField";
 import Meals from "./Meals";
 
@@ -34,26 +34,29 @@ const PlanDetails = () => {
     );
   }
   return (
-    <Box>
+    <Box sx={{ width: "50%" }}>
       <Box sx={{ m: 5 }}>
         <Typography variant="h5">Diet Plan Detail</Typography>
       </Box>
-      <Box>
+      <Box sx={{ m: 5 }}>
         <InlineField
           text="Fitness Goal:"
           data={data.fitnessGoal ? data.fitnessGoal : null}
         />
       </Box>
-      <Box>
+      <Divider />
+      <Box sx={{ m: 5 }}>
         <InlineField
           text="Dietary Requirments:"
           data={data.dietaryRequirment}
         />
       </Box>
-      <Box>
+      <Divider />
+      <Box sx={{ m: 5 }}>
         <InlineField text="Monthy Budget:" data={data.monthlyBudget} />
       </Box>
-      <Box>
+      <Divider />
+      <Box sx={{ m: 5 }}>
         <Meals
           mealType="BreakFast"
           data={data.meal ? data.meal.breakfast : null}

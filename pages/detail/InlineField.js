@@ -5,7 +5,9 @@ function InlineField(props) {
   return (
     <Box sx={{ display: "flex", flexDirection: "row" }}>
       <Box>
-        <Typography>{props.text}</Typography>
+        <Typography>
+          <strong>{props.text}</strong>
+        </Typography>
       </Box>
       <Box>
         <Typography>{props.data}</Typography>

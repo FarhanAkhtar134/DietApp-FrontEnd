@@ -1,4 +1,5 @@
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, List, ListItem } from "@mui/material";
+import RecipieItem from "./RecipieItem";
 
 function Recipie(props) {
   if (!props.recipeData) {
@@ -7,11 +8,13 @@ function Recipie(props) {
 
   return (
     <Box>
-      <Typography>Recipies</Typography>
-      {props.recipeData.map((recipie) => {
+      <Typography>
+        <strong>Recipies:</strong>
+      </Typography>
+      {props.recipeData.map((recipie, index) => {
         return (
           <>
-            <Typography>{recipie.name}</Typography>
+            <RecipieItem uniqueKey={index} recipie={recipie} />
           </>
         );
       })}
